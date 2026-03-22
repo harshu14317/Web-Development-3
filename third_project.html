@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Advanced Styling & JavaScript</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #01241e, #04545b);
+  color: rgb(255, 255, 255);
+}
+
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2.5rem;
+  color: #e4dddb;
+}
+
+.card {
+  background: rgba(255,255,255,0.1);
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #00ff77;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.quiz-option {
+  display: block;
+  margin: 8px 0;
+}
+
+.carousel {
+  position: relative;
+  text-align: center;
+}
+
+.carousel img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.carousel button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Advanced Styling 🚀</h1>
+
+
+
+<!-- QUIZ -->
+<div class="card" >
+<h1>🧠Quiz</h1>
+<p>What does CSS stand for?</p>
+
+<label class="quiz-option">
+<input type="radio" name="q" value="0"> Computer Style Sheet 
+</label>
+
+<label class="quiz-option">
+<input type="radio" name="q" value="1"> Cascading Style Sheet
+</label>
+
+<button onclick="checkAnswer()">Submit</button>
+<p id="result"></p>
+</div>
+
+<!-- CAROUSEL -->
+<div class="card">
+<h1>Image Carousel</h1>
+
+<div class="carousel">
+<button class="prev" onclick="prev()">⬅</button>
+<img id="slider" src="https://picsum.photos/800/300?1">
+<button class="next" onclick="next()">➡</button>
+</div>
+
+</div>
+
+<!-- API FETCH -->
+<div class="card">
+<h1>😂 Random Joke</h1>
+<button onclick="getJoke()">Get Joke</button>
+<p id="joke"></p>
+</div>
+
+</div>
+
+<script>
+
+function checkAnswer() {
+  let ans = document.querySelector('input[name="q"]:checked');
+  if (!ans) return;
+
+  document.getElementById("result").innerText =
+    ans.value == "1" ? "✅ Correct!" : "❌ Wrong!";
+}
+
+let images = [
+  "https://picsum.photos/800/300?1",
+  "https://picsum.photos/800/300?2",
+  "https://picsum.photos/800/300?3"
+];
+
+let index = 0;
+
+function showImage() {
+  document.getElementById("slider").src = images[index];
+}
+
+function next() {
+  index = (index + 1) % images.length;
+  showImage();
+}
+
+function prev() {
+  index = (index - 1 + images.length) % images.length;
+  showImage();
+}
+
+async function getJoke() {
+  let res = await fetch("https://official-joke-api.appspot.com/random_joke");
+  let data = await res.json();
+  document.getElementById("joke").innerText =
+    data.setup + " 😂 " + data.punchline;
+}
+
+</script>
+
+</body>
+</html>
